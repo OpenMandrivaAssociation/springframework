@@ -1,0 +1,213 @@
+diff -ur SpringSource-spring-framework-79c9ca1/org.springframework.context.support.orig/src/main/java/org/springframework/scheduling/quartz/CronTriggerFactoryBean.java SpringSource-spring-framework-79c9ca1/org.springframework.context.support/src/main/java/org/springframework/scheduling/quartz/CronTriggerFactoryBean.java
+--- SpringSource-spring-framework-79c9ca1/org.springframework.context.support.orig/src/main/java/org/springframework/scheduling/quartz/CronTriggerFactoryBean.java	2012-02-16 18:33:27.000000000 -0500
++++ SpringSource-spring-framework-79c9ca1/org.springframework.context.support/src/main/java/org/springframework/scheduling/quartz/CronTriggerFactoryBean.java	2012-08-09 14:15:20.484366385 -0400
+@@ -250,13 +250,14 @@
+ 		MutablePropertyValues pvs = new MutablePropertyValues();
+ 		pvs.add("name", this.name);
+ 		pvs.add("group", this.group);
+-		if (jobKeyMethod != null) {
++		// NOTE: commenting out Quartz 1.x code
++		// if (jobKeyMethod != null) {
+ 			pvs.add("jobKey", ReflectionUtils.invokeMethod(jobKeyMethod, this.jobDetail));
+-		}
+-		else {
+-			pvs.add("jobName", this.jobDetail.getName());
+-			pvs.add("jobGroup", this.jobDetail.getGroup());
+-		}
++		// }
++		// else {
++		//	pvs.add("jobName", this.jobDetail.getName());
++		//	pvs.add("jobGroup", this.jobDetail.getGroup());
++		// }
+ 		pvs.add("jobDataMap", this.jobDataMap);
+ 		pvs.add("startTime", this.startTime);
+ 		pvs.add("cronExpression", this.cronExpression);
+diff -ur SpringSource-spring-framework-79c9ca1/org.springframework.context.support.orig/src/main/java/org/springframework/scheduling/quartz/MethodInvokingJobDetailFactoryBean.java SpringSource-spring-framework-79c9ca1/org.springframework.context.support/src/main/java/org/springframework/scheduling/quartz/MethodInvokingJobDetailFactoryBean.java
+--- SpringSource-spring-framework-79c9ca1/org.springframework.context.support.orig/src/main/java/org/springframework/scheduling/quartz/MethodInvokingJobDetailFactoryBean.java	2012-02-16 18:33:27.000000000 -0500
++++ SpringSource-spring-framework-79c9ca1/org.springframework.context.support/src/main/java/org/springframework/scheduling/quartz/MethodInvokingJobDetailFactoryBean.java	2012-08-09 14:14:11.886730777 -0400
+@@ -204,7 +204,7 @@
+ 		Class jobClass = (this.concurrent ? MethodInvokingJob.class : StatefulMethodInvokingJob.class);
+ 
+ 		// Build JobDetail instance.
+-		if (jobDetailImplClass != null) {
++		//if (jobDetailImplClass != null) {
+ 			// Using Quartz 2.0 JobDetailImpl class...
+ 			this.jobDetail = (JobDetail) BeanUtils.instantiate(jobDetailImplClass);
+ 			BeanWrapper bw = PropertyAccessorFactory.forBeanPropertyAccess(this.jobDetail);
+@@ -213,14 +213,14 @@
+ 			bw.setPropertyValue("jobClass", jobClass);
+ 			bw.setPropertyValue("durability", true);
+ 			((JobDataMap) bw.getPropertyValue("jobDataMap")).put("methodInvoker", this);
+-		}
+-		else {
++		// }
++		// else {
+ 			// Using Quartz 1.x JobDetail class...
+-			this.jobDetail = new JobDetail(name, this.group, jobClass);
+-			this.jobDetail.setVolatility(true);
+-			this.jobDetail.setDurability(true);
+-			this.jobDetail.getJobDataMap().put("methodInvoker", this);
+-		}
++		//	this.jobDetail = new JobDetail(name, this.group, jobClass);
++		//	this.jobDetail.setVolatility(true);
++		//	this.jobDetail.setDurability(true);
++		//	this.jobDetail.getJobDataMap().put("methodInvoker", this);
++		// }
+ 
+ 		// Register job listener names.
+ 		if (this.jobListenerNames != null) {
+@@ -229,7 +229,7 @@
+ 					throw new IllegalStateException("Non-global JobListeners not supported on Quartz 2 - " +
+ 							"manually register a Matcher against the Quartz ListenerManager instead");
+ 				}
+-				this.jobDetail.addJobListener(jobListenerName);
++				// this.jobDetail.addJobListener(jobListenerName);
+ 			}
+ 		}
+ 
+diff -ur SpringSource-spring-framework-79c9ca1/org.springframework.context.support.orig/src/main/java/org/springframework/scheduling/quartz/SchedulerAccessor.java SpringSource-spring-framework-79c9ca1/org.springframework.context.support/src/main/java/org/springframework/scheduling/quartz/SchedulerAccessor.java
+--- SpringSource-spring-framework-79c9ca1/org.springframework.context.support.orig/src/main/java/org/springframework/scheduling/quartz/SchedulerAccessor.java	2012-02-16 18:33:27.000000000 -0500
++++ SpringSource-spring-framework-79c9ca1/org.springframework.context.support/src/main/java/org/springframework/scheduling/quartz/SchedulerAccessor.java	2012-08-09 14:09:27.113091589 -0400
+@@ -408,7 +408,8 @@
+ 
+ 	// Reflectively adapting to differences between Quartz 1.x and Quartz 2.0...
+ 	private boolean jobDetailExists(JobDetail jobDetail) throws SchedulerException {
+-		if (jobKeyClass != null) {
++		// NOTE: commenting out Quartz 1.x code
++		// if (jobKeyClass != null) {
+ 			try {
+ 				Method getJobDetail = Scheduler.class.getMethod("getJobDetail", jobKeyClass);
+ 				Object key = ReflectionUtils.invokeMethod(JobDetail.class.getMethod("getKey"), jobDetail);
+@@ -417,15 +418,16 @@
+ 			catch (NoSuchMethodException ex) {
+ 				throw new IllegalStateException("Inconsistent Quartz 2.0 API: " + ex);
+ 			}
+-		}
+-		else {
+-			return (getScheduler().getJobDetail(jobDetail.getName(), jobDetail.getGroup()) != null);
+-		}
++		// }
++		// else {
++		//	return (getScheduler().getJobDetail(jobDetail.getName(), jobDetail.getGroup()) != null);
++		// }
+ 	}
+ 
+ 	// Reflectively adapting to differences between Quartz 1.x and Quartz 2.0...
+ 	private boolean triggerExists(Trigger trigger) throws SchedulerException {
+-		if (triggerKeyClass != null) {
++		// NOTE: commenting out Quartz 1.x code
++		// if (triggerKeyClass != null) {
+ 			try {
+ 				Method getTrigger = Scheduler.class.getMethod("getTrigger", triggerKeyClass);
+ 				Object key = ReflectionUtils.invokeMethod(Trigger.class.getMethod("getKey"), trigger);
+@@ -434,15 +436,16 @@
+ 			catch (NoSuchMethodException ex) {
+ 				throw new IllegalStateException("Inconsistent Quartz 2.0 API: " + ex);
+ 			}
+-		}
+-		else {
+-			return (getScheduler().getTrigger(trigger.getName(), trigger.getGroup()) != null);
+-		}
++		// }
++		// else {
++		//	return (getScheduler().getTrigger(trigger.getName(), trigger.getGroup()) != null);
++		// }
+ 	}
+ 
+ 	// Reflectively adapting to differences between Quartz 1.x and Quartz 2.0...
+ 	private void rescheduleJob(Trigger trigger) throws SchedulerException {
+-		if (triggerKeyClass != null) {
++		// NOTE: commenting out Quartz 1.x code
++		// if (triggerKeyClass != null) {
+ 			try {
+ 				Method rescheduleJob = Scheduler.class.getMethod("rescheduleJob", triggerKeyClass, Trigger.class);
+ 				Object key = ReflectionUtils.invokeMethod(Trigger.class.getMethod("getKey"), trigger);
+@@ -451,10 +454,10 @@
+ 			catch (NoSuchMethodException ex) {
+ 				throw new IllegalStateException("Inconsistent Quartz 2.0 API: " + ex);
+ 			}
+-		}
+-		else {
+-			getScheduler().rescheduleJob(trigger.getName(), trigger.getGroup(), trigger);
+-		}
++		// }
++		// else {
++		//	getScheduler().rescheduleJob(trigger.getName(), trigger.getGroup(), trigger);
++		// }
+ 	}
+ 
+ 
+@@ -488,15 +491,15 @@
+ 					ReflectionUtils.invokeMethod(addJobListener, target, listener);
+ 				}
+ 			}
+-			if (this.jobListeners != null) {
+-				for (JobListener listener : this.jobListeners) {
+-					if (quartz2) {
+-						throw new IllegalStateException("Non-global JobListeners not supported on Quartz 2 - " +
+-								"manually register a Matcher against the Quartz ListenerManager instead");
+-					}
+-					getScheduler().addJobListener(listener);
+-				}
+-			}
++			// if (this.jobListeners != null) {
++			//	for (JobListener listener : this.jobListeners) {
++			//		if (quartz2) {
++			//			throw new IllegalStateException("Non-global JobListeners not supported on Quartz 2 - " +
++			//					"manually register a Matcher against the Quartz ListenerManager instead");
++			//		}
++			//		getScheduler().addJobListener(listener);
++			//	}
++			// }
+ 			if (this.globalTriggerListeners != null) {
+ 				Method addTriggerListener = target.getClass().getMethod(
+ 						(quartz2 ? "addTriggerListener" : "addGlobalTriggerListener"), TriggerListener.class);
+@@ -504,15 +507,15 @@
+ 					ReflectionUtils.invokeMethod(addTriggerListener, target, listener);
+ 				}
+ 			}
+-			if (this.triggerListeners != null) {
+-				for (TriggerListener listener : this.triggerListeners) {
+-					if (quartz2) {
+-						throw new IllegalStateException("Non-global TriggerListeners not supported on Quartz 2 - " +
+-								"manually register a Matcher against the Quartz ListenerManager instead");
+-					}
+-					getScheduler().addTriggerListener(listener);
+-				}
+-			}
++			// if (this.triggerListeners != null) {
++			//	for (TriggerListener listener : this.triggerListeners) {
++			//		if (quartz2) {
++			//			throw new IllegalStateException("Non-global TriggerListeners not supported on Quartz 2 - " +
++			//					"manually register a Matcher against the Quartz ListenerManager instead");
++			//		}
++			//		getScheduler().addTriggerListener(listener);
++			//	}
++			// }
+ 		}
+ 		catch (NoSuchMethodException ex) {
+ 			throw new IllegalStateException("Expected Quartz API not present: " + ex);
+diff -ur SpringSource-spring-framework-79c9ca1/org.springframework.context.support.orig/src/main/java/org/springframework/scheduling/quartz/SimpleTriggerFactoryBean.java SpringSource-spring-framework-79c9ca1/org.springframework.context.support/src/main/java/org/springframework/scheduling/quartz/SimpleTriggerFactoryBean.java
+--- SpringSource-spring-framework-79c9ca1/org.springframework.context.support.orig/src/main/java/org/springframework/scheduling/quartz/SimpleTriggerFactoryBean.java	2012-02-16 18:33:27.000000000 -0500
++++ SpringSource-spring-framework-79c9ca1/org.springframework.context.support/src/main/java/org/springframework/scheduling/quartz/SimpleTriggerFactoryBean.java	2012-08-09 14:12:31.702802451 -0400
+@@ -240,13 +240,14 @@
+ 		MutablePropertyValues pvs = new MutablePropertyValues();
+ 		pvs.add("name", this.name);
+ 		pvs.add("group", this.group);
+-		if (jobKeyMethod != null) {
++		// NOTE: commenting out Quartz 1.x code
++		// if (jobKeyMethod != null) {
+ 			pvs.add("jobKey", ReflectionUtils.invokeMethod(jobKeyMethod, this.jobDetail));
+-		}
+-		else {
+-			pvs.add("jobName", this.jobDetail.getName());
+-			pvs.add("jobGroup", this.jobDetail.getGroup());
+-		}
++		// }
++		// else {
++		//	pvs.add("jobName", this.jobDetail.getName());
++		//	pvs.add("jobGroup", this.jobDetail.getGroup());
++		// }
+ 		pvs.add("jobDataMap", this.jobDataMap);
+ 		pvs.add("startTime", this.startTime);
+ 		pvs.add("repeatInterval", this.repeatInterval);

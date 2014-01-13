@@ -1,0 +1,252 @@
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.test/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.test/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.test/pom.xml	2013-01-23 14:58:18.000000000 +0100
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.test/pom.xml	2013-10-12 15:31:13.418454486 +0200
+@@ -52,9 +52,9 @@
+       <scope>provided</scope>
+     </dependency>
+     <dependency>
+-      <groupId>javax.servlet</groupId>
+-      <artifactId>servlet-api</artifactId>
+-      <version>2.5</version>
++      <groupId>org.apache.tomcat</groupId>
++      <artifactId>tomcat-servlet-api</artifactId>
++      <version>7.0.42</version>
+       <scope>provided</scope>
+     </dependency>
+     <dependency>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.test/src/main/java/org/springframework/mock/web/MockHttpServletRequest.java spring-framework-3.1.4.RELEASE-gil/org.springframework.test/src/main/java/org/springframework/mock/web/MockHttpServletRequest.java
+--- spring-framework-3.1.4.RELEASE/org.springframework.test/src/main/java/org/springframework/mock/web/MockHttpServletRequest.java	2013-01-23 14:58:18.000000000 +0100
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.test/src/main/java/org/springframework/mock/web/MockHttpServletRequest.java	2013-10-12 15:42:38.918709139 +0200
+@@ -35,14 +35,19 @@
+ import java.util.Locale;
+ import java.util.Map;
+ import java.util.Set;
++import javax.servlet.AsyncContext;
++import javax.servlet.DispatcherType;
+ import javax.servlet.RequestDispatcher;
+ import javax.servlet.ServletContext;
+ import javax.servlet.ServletException;
+ import javax.servlet.ServletInputStream;
++import javax.servlet.ServletRequest;
++import javax.servlet.ServletResponse;
+ import javax.servlet.http.Cookie;
+ import javax.servlet.http.HttpServletRequest;
+ import javax.servlet.http.HttpServletResponse;
+ import javax.servlet.http.HttpSession;
++import javax.servlet.http.Part;
+ 
+ import org.springframework.util.Assert;
+ import org.springframework.util.LinkedCaseInsensitiveMap;
+@@ -897,4 +902,52 @@
+ 		this.authType = null;
+ 	}
+ 
++	//---------------------------------------------------------------------
++	// Unsupported Servlet 3.0 registration methods
++	//---------------------------------------------------------------------
++
++	public AsyncContext startAsync() {
++		throw new UnsupportedOperationException();
++	}
++
++	public AsyncContext startAsync(ServletRequest request, ServletResponse response) {
++		throw new UnsupportedOperationException();
++	}
++
++	public void setAsyncStarted(boolean asyncStarted) {
++		throw new UnsupportedOperationException();
++	}
++
++	public boolean isAsyncStarted() {
++		throw new UnsupportedOperationException();
++	}
++
++	public void setAsyncSupported(boolean asyncSupported) {
++		throw new UnsupportedOperationException();
++	}
++
++	public boolean isAsyncSupported() {
++		throw new UnsupportedOperationException();
++	}
++
++	public AsyncContext getAsyncContext() {
++		throw new UnsupportedOperationException();
++	}
++
++	public void setDispatcherType(DispatcherType dispatcherType) {
++		throw new UnsupportedOperationException();
++	}
++
++	public DispatcherType getDispatcherType() {
++		throw new UnsupportedOperationException();
++	}
++
++	public Part getPart(String name) throws IOException, IllegalStateException, ServletException {
++		throw new UnsupportedOperationException();
++	}
++
++	public Collection<Part> getParts() throws IOException, IllegalStateException, ServletException {
++		throw new UnsupportedOperationException();
++	}
++
+ }
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.test/src/main/java/org/springframework/mock/web/MockMultipartHttpServletRequest.java spring-framework-3.1.4.RELEASE-gil/org.springframework.test/src/main/java/org/springframework/mock/web/MockMultipartHttpServletRequest.java
+--- spring-framework-3.1.4.RELEASE/org.springframework.test/src/main/java/org/springframework/mock/web/MockMultipartHttpServletRequest.java	2013-01-23 14:58:18.000000000 +0100
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.test/src/main/java/org/springframework/mock/web/MockMultipartHttpServletRequest.java	2013-10-12 15:39:20.578551268 +0200
+@@ -16,12 +16,17 @@
+ 
+ package org.springframework.mock.web;
+ 
++import java.io.IOException;
++import java.util.Collection;
+ import java.util.Collections;
+ import java.util.Enumeration;
+ import java.util.Iterator;
+ import java.util.List;
+ import java.util.Map;
+ 
++import javax.servlet.ServletException;
++import javax.servlet.http.Part;
++
+ import org.springframework.http.HttpHeaders;
+ import org.springframework.http.HttpMethod;
+ import org.springframework.util.Assert;
+@@ -128,4 +133,16 @@
+ 		}
+ 	}
+ 
++	//---------------------------------------------------------------------
++	// Unsupported Servlet 3.0 registration methods
++	//---------------------------------------------------------------------
++
++	public Part getPart(String name) throws IOException, IllegalStateException, ServletException {
++		throw new UnsupportedOperationException();
++	}
++
++	public Collection<Part> getParts() throws IOException, IllegalStateException, ServletException {
++		throw new UnsupportedOperationException();
++	}
++
+ }
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.test/src/main/java/org/springframework/mock/web/MockServletContext.java spring-framework-3.1.4.RELEASE-gil/org.springframework.test/src/main/java/org/springframework/mock/web/MockServletContext.java
+--- spring-framework-3.1.4.RELEASE/org.springframework.test/src/main/java/org/springframework/mock/web/MockServletContext.java	2013-01-23 14:58:18.000000000 +0100
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.test/src/main/java/org/springframework/mock/web/MockServletContext.java	2013-10-12 15:37:11.546667021 +0200
+@@ -23,6 +23,7 @@
+ import java.net.URL;
+ import java.util.Collections;
+ import java.util.Enumeration;
++import java.util.EventListener;
+ import java.util.HashMap;
+ import java.util.HashSet;
+ import java.util.LinkedHashMap;
+@@ -31,9 +32,16 @@
+ import java.util.Set;
+ import java.util.Vector;
+ import javax.activation.FileTypeMap;
++import javax.servlet.Filter;
++import javax.servlet.FilterRegistration;
+ import javax.servlet.RequestDispatcher;
+ import javax.servlet.Servlet;
+ import javax.servlet.ServletContext;
++import javax.servlet.ServletException;
++import javax.servlet.ServletRegistration;
++import javax.servlet.SessionCookieConfig;
++import javax.servlet.SessionTrackingMode;
++import javax.servlet.descriptor.JspConfigDescriptor;
+ 
+ import org.apache.commons.logging.Log;
+ import org.apache.commons.logging.LogFactory;
+@@ -420,4 +428,93 @@
+ 		}
+ 	}
+ 
++	//---------------------------------------------------------------------
++	// Unsupported Servlet 3.0 registration methods
++	//---------------------------------------------------------------------
++
++
++	public JspConfigDescriptor getJspConfigDescriptor() {
++		throw new UnsupportedOperationException();
++	}
++
++	public ServletRegistration.Dynamic addServlet(String servletName, String className) {
++		throw new UnsupportedOperationException();
++	}
++
++	public ServletRegistration.Dynamic addServlet(String servletName, Servlet servlet) {
++		throw new UnsupportedOperationException();
++	}
++
++	public ServletRegistration.Dynamic addServlet(String servletName, Class<? extends Servlet> servletClass) {
++		throw new UnsupportedOperationException();
++	}
++
++	public <T extends Servlet> T createServlet(Class<T> c) throws ServletException {
++		throw new UnsupportedOperationException();
++	}
++
++	public ServletRegistration getServletRegistration(String servletName) {
++		throw new UnsupportedOperationException();
++	}
++
++	public Map<String, ? extends ServletRegistration> getServletRegistrations() {
++		throw new UnsupportedOperationException();
++	}
++
++	public FilterRegistration.Dynamic addFilter(String filterName, String className) {
++		throw new UnsupportedOperationException();
++	}
++
++	public FilterRegistration.Dynamic addFilter(String filterName, Filter filter) {
++		throw new UnsupportedOperationException();
++	}
++
++	public FilterRegistration.Dynamic addFilter(String filterName, Class<? extends Filter> filterClass) {
++		throw new UnsupportedOperationException();
++	}
++
++	public <T extends Filter> T createFilter(Class<T> c) throws ServletException {
++		throw new UnsupportedOperationException();
++	}
++
++	public FilterRegistration getFilterRegistration(String filterName) {
++		throw new UnsupportedOperationException();
++	}
++
++	public Map<String, ? extends FilterRegistration> getFilterRegistrations() {
++		throw new UnsupportedOperationException();
++	}
++
++	public void addListener(Class<? extends EventListener> listenerClass) {
++		throw new UnsupportedOperationException();
++	}
++
++	public void addListener(String className) {
++		throw new UnsupportedOperationException();
++	}
++
++	public <T extends EventListener> void addListener(T t) {
++		throw new UnsupportedOperationException();
++	}
++
++	public <T extends EventListener> T createListener(Class<T> c) throws ServletException {
++		throw new UnsupportedOperationException();
++	}
++
++	public SessionCookieConfig getSessionCookieConfig() {
++		throw new UnsupportedOperationException();
++	}
++
++	public Set<SessionTrackingMode> getDefaultSessionTrackingModes() {
++		throw new UnsupportedOperationException();
++	}
++
++	public Set<SessionTrackingMode> getEffectiveSessionTrackingModes() {
++		throw new UnsupportedOperationException();
++	}
++
++	public void setSessionTrackingModes(Set<SessionTrackingMode> sessionTrackingModes) throws IllegalStateException, IllegalArgumentException {
++		throw new UnsupportedOperationException();
++	}
++
+ }

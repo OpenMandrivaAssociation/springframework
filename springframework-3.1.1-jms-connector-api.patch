@@ -1,0 +1,15 @@
+--- org.springframework.jms/pom.xml	2012-02-17 00:33:27.000000000 +0100
++++ org.springframework.jms/pom.xml-gil	2012-05-28 20:42:14.303907848 +0200
+@@ -28,9 +28,9 @@
+       <scope>provided</scope>
+     </dependency>
+     <dependency>
+-      <groupId>org.apache.geronimo.specs</groupId>
+-      <artifactId>geronimo-j2ee-connector_1.5_spec</artifactId>
+-      <version>2.0.0</version>
++      <groupId>org.jboss.spec.javax.resource</groupId>
++      <artifactId>jboss-connector-api_1.6_spec</artifactId>
++      <version>1.0.1-SNAPSHOT</version>
+       <optional>true</optional>
+     </dependency>
+     <dependency>

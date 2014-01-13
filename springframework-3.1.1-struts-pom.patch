@@ -1,0 +1,25 @@
+--- org.springframework.web.struts/pom.xml	2012-02-17 00:33:27.000000000 +0100
++++ org.springframework.web.struts/pom.xml-gil	2012-05-29 16:33:35.035832593 +0200
+@@ -40,8 +40,20 @@
+       <scope>test</scope>
+     </dependency>
+   <dependency>
+-    <groupId>struts</groupId>
+-    <artifactId>struts</artifactId>
++    <groupId>org.apache.struts</groupId>
++    <artifactId>struts-core</artifactId>
++    <version>1.2.9</version>
++    <scope>compile</scope>
++  </dependency>
++  <dependency>
++    <groupId>org.apache.struts</groupId>
++    <artifactId>struts-extras</artifactId>
++    <version>1.2.9</version>
++    <scope>compile</scope>
++  </dependency>
++  <dependency>
++    <groupId>org.apache.struts</groupId>
++    <artifactId>struts-tiles</artifactId>
+     <version>1.2.9</version>
+     <scope>compile</scope>
+   </dependency>

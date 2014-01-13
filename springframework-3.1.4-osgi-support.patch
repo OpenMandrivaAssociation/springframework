@@ -1,0 +1,945 @@
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.aop/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.aop/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.aop/pom.xml	2013-01-23 14:58:18.000000000 +0100
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.aop/pom.xml	2013-10-12 16:03:32.609320161 +0200
+@@ -85,4 +85,48 @@
+       <scope>test</scope>
+     </dependency>
+   </dependencies>
++  
++  <build>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>org.springframework.aop;version=${project.version}</Export-Package>
++            <Bundle-SymbolicName>org.springframework.aop</Bundle-SymbolicName>
++            <Bundle-Name>Spring AOP</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++
++    </plugins>
++  </build>
++
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.beans/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.beans/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.beans/pom.xml	2013-01-23 14:58:18.000000000 +0100
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.beans/pom.xml	2013-10-12 16:53:16.121871850 +0200
+@@ -79,5 +79,46 @@
+         </plugin>
+       </plugins>
+     </pluginManagement>
++
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>org.springframework.beans;version=${project.version}</Export-Package>
++            <Bundle-SymbolicName>org.springframework.beans</Bundle-SymbolicName>
++            <Bundle-Name>Spring Beans</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++
++    </plugins>
+   </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.context/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.context/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.context/pom.xml	2013-01-23 14:58:18.000000000 +0100
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.context/pom.xml	2013-10-12 16:51:57.139200615 +0200
+@@ -276,5 +276,60 @@
+         </includes>
+       </testResource>
+     </testResources>
++
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>
++              org.springframework.cache;version=${project.version},
++              org.springframework.ejb;version=${project.version},
++              org.springframework.format;version=${project.version},
++              org.springframework.instrument.classloading;version=${project.version},
++              org.springframework.jmx;version=${project.version},
++              org.springframework.jndi;version=${project.version},
++              org.springframework.remoting;version=${project.version},
++              org.springframework.scheduling;version=${project.version},
++              org.springframework.scripting;version=${project.version},
++              org.springframework.stereotype;version=${project.version},
++              org.springframework.ui;version=${project.version},
++              org.springframework.validation;version=${project.version}
++            </Export-Package>
++            <Bundle-SymbolicName>org.springframework.context</Bundle-SymbolicName>
++            <Bundle-Name>Spring Context</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++
++    </plugins>
++
+   </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.context.support/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.context.support/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.context.support/pom.xml	2013-10-12 16:48:00.139180116 +0200
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.context.support/pom.xml	2013-10-12 16:50:54.312642837 +0200
+@@ -143,5 +143,55 @@
+         </includes>
+       </testResource>
+     </testResources>
++    
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>
++              org.springframework.mail;version=${project.version},
++              org.springframework.scheduling.commonj;version=${project.version},
++              org.springframework.scheduling.quartz;version=${project.version},
++              org.springframework.ui.freemarker;version=${project.version},
++              org.springframework.ui.jasperreports;version=${project.version},
++              org.springframework.ui.velocity;version=${project.version}
++            </Export-Package>
++            <Bundle-SymbolicName>org.springframework.context.support</Bundle-SymbolicName>
++            <Bundle-Name>Spring Context Support</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++
++    </plugins>
++    
++
+   </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.core/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.core/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.core/pom.xml	2013-01-23 14:58:18.000000000 +0100
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.core/pom.xml	2013-10-12 17:01:14.269639628 +0200
+@@ -80,4 +80,49 @@
+       <scope>test</scope>
+     </dependency>
+   </dependencies>
++  <build>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>
++              org.springframework.core;version=${project.version},
++              org.springframework.util;version=${project.version}
++            </Export-Package>
++            <Bundle-SymbolicName>org.springframework.core</Bundle-SymbolicName>
++            <Bundle-Name>Spring Core</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++
++    </plugins>
++  </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.expression/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.expression/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.expression/pom.xml	2013-01-23 14:58:18.000000000 +0100
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.expression/pom.xml	2013-10-12 17:05:00.950191035 +0200
+@@ -51,5 +51,45 @@
+         </plugin>
+       </plugins>
+     </pluginManagement>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>org.springframework.expression;version=${project.version}</Export-Package>
++            <Bundle-SymbolicName>org.springframework.expression</Bundle-SymbolicName>
++            <Bundle-Name>Spring Expression Language</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++
++    </plugins>
+   </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.instrument/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.instrument/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.instrument/pom.xml	2013-01-23 14:58:18.000000000 +0100
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.instrument/pom.xml	2013-10-12 16:56:04.065662881 +0200
+@@ -20,4 +20,50 @@
+       <distribution>repo</distribution>
+     </license>
+   </licenses>
++  <build>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>org.springframework.instrument;version=${project.version}</Export-Package>
++            <Bundle-SymbolicName>org.springframework.instrument</Bundle-SymbolicName>
++            <Bundle-Name>Spring Instrument</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++            <Premain-Class>org.springframework.instrument.InstrumentationSavingAgent</Premain-Class>
++            <Can-Redefine-Classes>true</Can-Redefine-Classes>
++            <Can-Retransform-Classes>true</Can-Retransform-Classes>
++            <Can-Set-Native-Method-Prefix>false</Can-Set-Native-Method-Prefix>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++
++    </plugins>
++  </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.instrument.tomcat/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.instrument.tomcat/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.instrument.tomcat/pom.xml	2013-01-23 14:58:18.000000000 +0100
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.instrument.tomcat/pom.xml	2013-10-12 16:58:42.161988916 +0200
+@@ -28,4 +28,46 @@
+       <scope>provided</scope>
+     </dependency>
+   </dependencies>
++  <build>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>org.springframework.instrument.classloading.tomcat;version=${project.version}</Export-Package>
++            <Bundle-SymbolicName>org.springframework.instrument.tomcat</Bundle-SymbolicName>
++            <Bundle-Name>Spring Instrument Tomcat Weaver</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++
++    </plugins>
++  </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.jdbc/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.jdbc/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.jdbc/pom.xml	2013-10-12 16:48:00.136180280 +0200
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.jdbc/pom.xml	2013-10-12 17:07:32.218935939 +0200
+@@ -107,5 +107,45 @@
+         </includes>
+       </testResource>
+     </testResources>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>org.springframework.jdbc;version=${project.version}</Export-Package>
++            <Bundle-SymbolicName>org.springframework.jdbc</Bundle-SymbolicName>
++            <Bundle-Name>Spring JDBC</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++
++    </plugins>
+   </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.jms/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.jms/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.jms/pom.xml	2013-10-12 16:48:00.149179568 +0200
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.jms/pom.xml	2013-10-12 17:09:40.461931801 +0200
+@@ -117,5 +117,45 @@
+         </plugin>
+       </plugins>
+     </pluginManagement>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>org.springframework.jms;version=${project.version}</Export-Package>
++            <Bundle-SymbolicName>org.springframework.jms</Bundle-SymbolicName>
++            <Bundle-Name>Spring JMS</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++
++    </plugins>
+   </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.orm/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.orm/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.orm/pom.xml	2013-10-12 16:48:00.153179350 +0200
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.orm/pom.xml	2013-10-12 17:10:10.468292181 +0200
+@@ -258,5 +258,48 @@
+         </includes>
+       </testResource>
+     </testResources>
++    
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>
++              org.springframework.orm;version=${project.version}
++            </Export-Package>
++            <Bundle-SymbolicName>org.springframework.orm</Bundle-SymbolicName>
++            <Bundle-Name>Spring ORM</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++
++    </plugins>
+   </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.oxm/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.oxm/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.oxm/pom.xml	2013-01-23 14:58:18.000000000 +0100
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.oxm/pom.xml	2013-10-12 17:12:04.198075217 +0200
+@@ -105,4 +105,47 @@
+       <scope>test</scope>
+     </dependency>
+   </dependencies>
++
++  <build>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>org.springframework.oxm;version=${project.version}</Export-Package>
++            <Bundle-SymbolicName>org.springframework.oxm</Bundle-SymbolicName>
++            <Bundle-Name>Spring Object/XML Mapping</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++    </plugins>
++  </build>
++
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.test/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.test/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.test/pom.xml	2013-10-12 16:48:00.183177708 +0200
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.test/pom.xml	2013-10-12 17:14:47.878121496 +0200
+@@ -166,4 +166,49 @@
+       <optional>true</optional>
+     </dependency>
+   </dependencies>
++
++  <build>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>
++              org.springframework.mock;version=${project.version},
++              org.springframework.test;version=${project.version}
++            </Export-Package>
++            <Bundle-SymbolicName>org.springframework.test</Bundle-SymbolicName>
++            <Bundle-Name>Spring Test</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++    </plugins>
++  </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.transaction/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.transaction/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.transaction/pom.xml	2013-10-12 16:48:00.132180499 +0200
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.transaction/pom.xml	2013-10-12 17:17:33.779039761 +0200
+@@ -112,4 +112,50 @@
+       <scope>test</scope>
+     </dependency>
+   </dependencies>
++
++  <build>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>
++              org.springframework.dao;version=${project.version},
++              org.springframework.jca;version=${project.version},
++              org.springframework.transaction;version=${project.version}
++            </Export-Package>
++            <Bundle-SymbolicName>org.springframework.transaction</Bundle-SymbolicName>
++            <Bundle-Name>Spring Transaction</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++    </plugins>
++  </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.web/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.web/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.web/pom.xml	2013-01-23 14:58:18.000000000 +0100
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.web/pom.xml	2013-10-12 17:19:52.347449936 +0200
+@@ -200,4 +200,50 @@
+       <scope>test</scope>
+     </dependency>
+   </dependencies>
++
++  <build>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>
++              org.springframework.http;version=${project.version},
++              org.springframework.remoting;version=${project.version},
++              org.springframework.web;version=${project.version}
++            </Export-Package>
++            <Bundle-SymbolicName>org.springframework.web</Bundle-SymbolicName>
++            <Bundle-Name>Spring Web</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++    </plugins>
++  </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.web.portlet/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.web.portlet/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.web.portlet/pom.xml	2013-01-23 14:58:18.000000000 +0100
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.web.portlet/pom.xml	2013-10-12 17:21:37.798671737 +0200
+@@ -117,5 +117,45 @@
+         </plugin>
+       </plugins>
+     </pluginManagement>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>org.springframework.web.portlet;version=${project.version}</Export-Package>
++            <Bundle-SymbolicName>org.springframework.web.portlet</Bundle-SymbolicName>
++            <Bundle-Name>Spring Web Portlet</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++
++    </plugins>
+   </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.web.servlet/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.web.servlet/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.web.servlet/pom.xml	2013-10-12 16:48:00.162178857 +0200
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.web.servlet/pom.xml	2013-10-12 17:23:47.019594802 +0200
+@@ -327,4 +327,46 @@
+       </exclusions>
+     </dependency>
+   </dependencies>
++
++  <build>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>org.springframework.web.servlet;version=${project.version}</Export-Package>
++            <Bundle-SymbolicName>org.springframework.web.servlet</Bundle-SymbolicName>
++            <Bundle-Name>Spring Web Servlet</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++    </plugins>
++  </build>
+ </project>
+diff -Nru spring-framework-3.1.4.RELEASE/org.springframework.web.struts/pom.xml spring-framework-3.1.4.RELEASE-gil/org.springframework.web.struts/pom.xml
+--- spring-framework-3.1.4.RELEASE/org.springframework.web.struts/pom.xml	2013-10-12 16:48:00.168178529 +0200
++++ spring-framework-3.1.4.RELEASE-gil/org.springframework.web.struts/pom.xml	2013-10-12 17:26:57.389167095 +0200
+@@ -110,4 +110,49 @@
+       <scope>test</scope>
+     </dependency>
+   </dependencies>
++
++  <build>
++    <plugins>
++      <plugin>
++        <groupId>org.apache.felix</groupId>
++        <artifactId>maven-bundle-plugin</artifactId>
++        <version>2.3.7</version>
++        <extensions>true</extensions>
++        <configuration>
++          <instructions>
++            <Export-Package>
++              org.springframework.web.servlet.view.tiles;version=${project.version},
++              org.springframework.web.struts;version=${project.version}
++            </Export-Package>
++            <Bundle-SymbolicName>org.springframework.web.struts</Bundle-SymbolicName>
++            <Bundle-Name>Spring Web Struts</Bundle-Name>
++            <Bundle-Vendor>SpringSource</Bundle-Vendor>
++          </instructions>
++        </configuration>
++        <executions>
++          <execution>
++            <id>bundle-manifest</id>
++            <phase>process-classes</phase>
++            <goals>
++              <goal>manifest</goal>
++            </goals>
++          </execution>
++        </executions>
++      </plugin>
++
++      <plugin>
++        <groupId>org.apache.maven.plugins</groupId>
++        <artifactId>maven-jar-plugin</artifactId>
++        <version>2.4</version>
++        <configuration>
++          <archive>
++            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
++            <manifest>
++             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
++            </manifest>
++          </archive>
++        </configuration>
++      </plugin>
++    </plugins>
++  </build>
+ </project>

@@ -1,0 +1,12 @@
+--- org.springframework.context.support/src/main/java/org/springframework/ui/velocity/VelocityEngineFactory.java	2012-02-17 00:33:27.000000000 +0100
++++ org.springframework.context.support/src/main/java/org/springframework/ui/velocity/VelocityEngineFactory.java-gil	2012-05-26 14:15:18.849596556 +0200
+@@ -250,9 +250,6 @@
+ 			// Perform actual initialization.
+ 			velocityEngine.init();
+ 		}
+-		catch (IOException ex) {
+-			throw ex;
+-		}
+ 		catch (VelocityException ex) {
+ 			throw ex;
+ 		}

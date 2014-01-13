@@ -1,0 +1,24 @@
+--- org.springframework.orm/src/main/java/org/springframework/orm/jpa/persistenceunit/MutablePersistenceUnitInfo.java	2012-02-17 00:33:27.000000000 +0100
++++ org.springframework.orm/src/main/java/org/springframework/orm/jpa/persistenceunit/MutablePersistenceUnitInfo.java-gil	2012-05-28 21:59:48.230933098 +0200
+@@ -20,6 +20,8 @@
+ import java.util.LinkedList;
+ import java.util.List;
+ import java.util.Properties;
++import javax.persistence.SharedCacheMode;
++import javax.persistence.ValidationMode;
+ import javax.persistence.spi.ClassTransformer;
+ import javax.persistence.spi.PersistenceUnitTransactionType;
+ import javax.sql.DataSource;
+@@ -220,4 +222,12 @@
+ 		return builder.toString();
+ 	}
+ 
++	public SharedCacheMode getSharedCacheMode() {
++		throw new UnsupportedOperationException("getSharedCacheMode");
++	}
++
++	public ValidationMode getValidationMode() {
++		throw new UnsupportedOperationException("getValidationMode");
++	}
++
+ }
