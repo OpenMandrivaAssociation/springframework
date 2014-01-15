@@ -1,21 +1,2 @@
 sources:
   v3.1.4.RELEASE.tar.gz: 2fc29d756359990728ffdb05671ef590dfa99282
-  springframework-3.1.4-2.0-omv2014.0.noarch.rpm: afb589a1cf4453a4a3c3b561a968b443975fe8b8
-  springframework-aop-3.1.4-2.0-omv2014.0.noarch.rpm: a6b1af8f2bd220111c2c2a66eacb4c04c3063a9f
-  springframework-beans-3.1.4-2.0-omv2014.0.noarch.rpm: 34cfa4aadea8337b8e9fe2278a40b0c5d6c3d983
-  springframework-context-3.1.4-2.0-omv2014.0.noarch.rpm: 5bd4fd7219eace668d2c043152f82d7ac43728b1
-  springframework-context-support-3.1.4-2.0-omv2014.0.noarch.rpm: 0ee56c2c00d8a84dfd43a9fb7fb6ed755ee85b2b
-  springframework-expression-3.1.4-2.0-omv2014.0.noarch.rpm: 685af2bcbf183b6be8bb75e6ab837b19ef0408cc
-  springframework-instrument-3.1.4-2.0-omv2014.0.noarch.rpm: 9614ef2dd2e7988ae408a4a8294a6fc146e82a88
-  springframework-instrument-tomcat-3.1.4-2.0-omv2014.0.noarch.rpm: 14257c09ef962cf9b31dcc2b85164689f2463064
-  springframework-javadoc-3.1.4-2.0-omv2014.0.noarch.rpm: a49576cdf732407324a5d6e91b7619a11db72738
-  springframework-jdbc-3.1.4-2.0-omv2014.0.noarch.rpm: 3e37d91f3f30f3ff1c9c4ed860047c80effc3df4
-  springframework-jms-3.1.4-2.0-omv2014.0.noarch.rpm: 02e44fa796ef74fe4051fbbce0146fe4552e7a52
-  springframework-orm-3.1.4-2.0-omv2014.0.noarch.rpm: a214be1728cf4585e2655ccc9d624661ee34b437
-  springframework-oxm-3.1.4-2.0-omv2014.0.noarch.rpm: 82d764c0e5749ed20a7ec02e8d4da182638f29e5
-  springframework-struts-3.1.4-2.0-omv2014.0.noarch.rpm: 5f66568869fc3ef07cd368b4539763eab3251d48
-  springframework-test-3.1.4-2.0-omv2014.0.noarch.rpm: 59531540c992cb973fd28722ebb15f93804f9366
-  springframework-tx-3.1.4-2.0-omv2014.0.noarch.rpm: 5c51a2b27f8cbc1dbba96fd78befdfd781df6c3b
-  springframework-web-3.1.4-2.0-omv2014.0.noarch.rpm: aab1f3a7e8042b23757bc7a71f6a63374fc77e5e
-  springframework-webmvc-3.1.4-2.0-omv2014.0.noarch.rpm: 0d1537c2a71d18ae1e32540c7fcdde4345978ebf
-  springframework-webmvc-portlet-3.1.4-2.0-omv2014.0.noarch.rpm: d6aea53c93a6faaeab66429be76e1dc76d8d0f06
