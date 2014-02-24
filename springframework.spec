@@ -165,10 +165,8 @@ BuildRequires: mvn(xmlunit:xmlunit)
 BuildRequires: maven-local
 BuildRequires: maven-plugin-bundle
 BuildRequires: maven-source-plugin
-%if 0%{?fedora}
-%else
+
 BuildRequires: eclipse-jdt
-%endif
 
 BuildArch:     noarch
 
