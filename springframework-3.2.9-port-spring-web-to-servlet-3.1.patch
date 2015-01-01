@@ -1,0 +1,54 @@
+--- spring-framework-3.2.9.RELEASE/spring-web/src/main/java/org/springframework/web/filter/ShallowEtagHeaderFilter.java.orig	2015-01-01 18:35:33.870500078 +0000
++++ spring-framework-3.2.9.RELEASE/spring-web/src/main/java/org/springframework/web/filter/ShallowEtagHeaderFilter.java	2015-01-01 18:45:27.742456325 +0000
+@@ -27,6 +27,7 @@
+ import javax.servlet.http.HttpServletRequest;
+ import javax.servlet.http.HttpServletResponse;
+ import javax.servlet.http.HttpServletResponseWrapper;
++import javax.servlet.WriteListener;
+ 
+ import org.springframework.util.Assert;
+ import org.springframework.util.DigestUtils;
+@@ -245,6 +246,14 @@
+ 			public void write(byte[] b, int off, int len) throws IOException {
+ 				content.write(b, off, len);
+ 			}
++
++			public void setWriteListener(WriteListener writeListener) {
++				throw new UnsupportedOperationException("Not implemented yet");
++			}
++
++			public boolean isReady() {
++				throw new UnsupportedOperationException("Not implemented yet");
++			}
+ 		}
+ 
+ 
+--- spring-framework-3.2.9.RELEASE/spring-web/src/main/java/org/springframework/web/filter/AbstractRequestLoggingFilter.java.orig	2015-01-01 18:27:37.761535154 +0000
++++ spring-framework-3.2.9.RELEASE/spring-web/src/main/java/org/springframework/web/filter/AbstractRequestLoggingFilter.java	2015-01-01 18:46:27.807451900 +0000
+@@ -28,6 +28,7 @@
+ import javax.servlet.http.HttpServletRequestWrapper;
+ import javax.servlet.http.HttpServletResponse;
+ import javax.servlet.http.HttpSession;
++import javax.servlet.ReadListener;
+ 
+ import org.springframework.util.Assert;
+ import org.springframework.util.StringUtils;
+@@ -356,6 +357,18 @@
+ 				return ch;
+ 			}
+ 
++			public void setReadListener(ReadListener readListener) {
++				throw new UnsupportedOperationException("Not implemented yet");
++			}
++
++			public boolean isReady() {
++				throw new UnsupportedOperationException("Not implemented yet");
++			}
++
++			public boolean isFinished() {
++				throw new UnsupportedOperationException("Not implemeneted yet");
++			}
++
+ 		}
+ 
+ 	}

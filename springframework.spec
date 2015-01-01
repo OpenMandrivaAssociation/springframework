@@ -1,175 +1,137 @@
-# Easier this way to get the desired build options
-%define fedora 20
 %{?_javapackages_macros:%_javapackages_macros}
 %global namedreltag .RELEASE
 %global namedversion %{version}%{?namedreltag}
+
 Name:          springframework
-Version:       3.1.4
-Release:       2.1%{?dist}
+Version:       3.2.9
+Release:       2.1
 Summary:       Spring Java Application Framework
+Group:         Development/Java
 Epoch:         0
 License:       ASL 2.0
-URL:           http://www.springframework.org
-# Latest release require asm4 and cglib3
+URL:           http://projects.spring.io/spring-framework/
+
 Source0:       https://github.com/spring-projects/spring-framework/archive/v%{namedversion}.tar.gz
-Source1:       %{name}-3.1.4.RELEASE-pom.xml
 
-# Use the JCA API provided by JBoss:
-Patch0:        %{name}-use-jboss-jca-api.patch
-# Use the correct Derby artifact id:
-Patch1:        %{name}-fix-derby-aid.patch
-# Change: com.springsource.commonj with geronimo-commonj_1.1_spec
-#         opensymphony with org.quartz-scheduler
-# Remove: javax.activation
-# Fix jasperreports gId
-Patch2:        %{name}-3.1.1-context_support-pom.patch
-# Fix build with velocity 1.7
-Patch3:        %{name}-3.1.1-velocity.patch
-# Use jboss-connector-api_1.6_spec instead of geronimo-j2ee-connector_1.5_spec
-Patch4:        %{name}-3.1.1-jms-connector-api.patch
-# Fix openjpa deps
-# Remove: ibatis-sqlmap (see http://attic.apache.org/projects/ibatis.html)
-#         org.eclipse.persistence.jpa (part of eclipselink core)
-#         org.eclipse.persistence.asm (eclipselink use system asm3)
-#         org.eclipse.persistence.antlr (eclipselink use system antlr2)
-#         hibernate-cglib-repack (unavailable use cglib)
-#         hibernate-annotations (part of hibernate-core)
-# Fix cglib aId
-Patch5:        %{name}-3.1.4-orm-pom.patch
-# Add jpa-2.0-api support
-Patch6:        %{name}-3.1.1-orm-jpa_api.patch
-# Add tiles-el
-Patch7:        %{name}-3.1.1-web_servlet-pom.patch
-# Fix struts deps
-Patch8:        %{name}-3.1.1-struts-pom.patch
-# Build with Quartz 2.x only
-Patch9:        %{name}-3.1.1-no-quartz1.patch
-# Add missing servlet 3.0 methods
-Patch10:       %{name}-3.1.4-test-servlet30.patch
-# Add OSGi MANIFESTs
-Patch11:       %{name}-3.1.4-osgi-support.patch
-# Don't rename the asm package:
-Patch12:       %{name}-3.1.4-dont-rebundle-asm.patch
-# Replace all alias with proper aId:aId:version
-# e.g. org.springframework.context use geronimo-ejb_3.0_spec
-#      org.springframework.transaction use com.springsource.javax.ejb
-#      now use geronimo-ejb_3.1_spec
-Patch13:       %{name}-3.1.4-fix-javax-apis.patch
-# Remove some code which don't compile with Hibernate Validator 5.x
-Patch14:       %{name}-3.1.4-hibernate-validator5.patch
+Source101:     springframework-%{namedversion}.pom
+Source102:     http://repo1.maven.org/maven2/org/%{name}/spring-core/%{namedversion}/spring-core-%{namedversion}.pom
+Source103:     http://repo1.maven.org/maven2/org/%{name}/spring-expression/%{namedversion}/spring-expression-%{namedversion}.pom
+Source104:     http://repo1.maven.org/maven2/org/%{name}/spring-context/%{namedversion}/spring-context-%{namedversion}.pom
+Source105:     http://repo1.maven.org/maven2/org/%{name}/spring-aop/%{namedversion}/spring-aop-%{namedversion}.pom
+Source106:     http://repo1.maven.org/maven2/org/%{name}/spring-instrument/%{namedversion}/spring-instrument-%{namedversion}.pom
+Source107:     http://repo1.maven.org/maven2/org/%{name}/spring-beans/%{namedversion}/spring-beans-%{namedversion}.pom
+Source108:     http://repo1.maven.org/maven2/org/%{name}/spring-orm/%{namedversion}/spring-orm-%{namedversion}.pom
+Source109:     http://repo1.maven.org/maven2/org/%{name}/spring-test/%{namedversion}/spring-test-%{namedversion}.pom
+Source110:     http://repo1.maven.org/maven2/org/%{name}/spring-context-support/%{namedversion}/spring-context-support-%{namedversion}.pom
+Source111:     http://repo1.maven.org/maven2/org/%{name}/spring-instrument-tomcat/%{namedversion}/spring-instrument-tomcat-%{namedversion}.pom
+Source112:     http://repo1.maven.org/maven2/org/%{name}/spring-jdbc/%{namedversion}/spring-jdbc-%{namedversion}.pom
+Source113:     http://repo1.maven.org/maven2/org/%{name}/spring-jms/%{namedversion}/spring-jms-%{namedversion}.pom
+Source114:     http://repo1.maven.org/maven2/org/%{name}/spring-tx/%{namedversion}/spring-tx-%{namedversion}.pom
+Source115:     http://repo1.maven.org/maven2/org/%{name}/spring-web/%{namedversion}/spring-web-%{namedversion}.pom
+Source116:     http://repo1.maven.org/maven2/org/%{name}/spring-oxm/%{namedversion}/spring-oxm-%{namedversion}.pom
+Source117:     http://repo1.maven.org/maven2/org/%{name}/spring-struts/%{namedversion}/spring-struts-%{namedversion}.pom
+Source118:     http://repo1.maven.org/maven2/org/%{name}/spring-webmvc/%{namedversion}/spring-webmvc-%{namedversion}.pom
+Source119:     http://repo1.maven.org/maven2/org/%{name}/spring-webmvc-portlet/%{namedversion}/spring-webmvc-portlet-%{namedversion}.pom
 
-BuildRequires: hibernate3
-BuildRequires: hibernate3-entitymanager
-BuildRequires: mvn(aopalliance:aopalliance)
-BuildRequires: mvn(asm:asm)
-BuildRequires: mvn(asm:asm-commons)
-BuildRequires: mvn(axis:axis)
-BuildRequires: mvn(cglib:cglib)
-BuildRequires: mvn(com.caucho:hessian)
-BuildRequires: mvn(com.fasterxml:oss-parent)
-BuildRequires: mvn(com.fasterxml.jackson.core:jackson-databind)
-BuildRequires: mvn(com.h2database:h2)
-BuildRequires: mvn(com.jamonapi:jamon)
-BuildRequires: mvn(com.lowagie:itext)
-BuildRequires: mvn(com.mchange:c3p0)
-BuildRequires: mvn(com.sun.xml.bind:jaxb-impl)
-BuildRequires: mvn(com.thoughtworks.xstream:xstream)
-BuildRequires: mvn(commons-beanutils:commons-beanutils)
-BuildRequires: mvn(commons-collections:commons-collections)
-BuildRequires: mvn(commons-fileupload:commons-fileupload)
-BuildRequires: mvn(commons-httpclient:commons-httpclient)
-BuildRequires: mvn(commons-lang:commons-lang)
-BuildRequires: mvn(commons-logging:commons-logging)
-BuildRequires: mvn(commons-pool:commons-pool)
-BuildRequires: mvn(javax.inject:javax.inject)
-BuildRequires: mvn(javax.jdo:jdo2-api)
-BuildRequires: mvn(javax.mail:mail)
-BuildRequires: mvn(javax.portlet:portlet-api)
-BuildRequires: mvn(joda-time:joda-time)
-BuildRequires: mvn(junit:junit)
-BuildRequires: mvn(log4j:log4j)
-BuildRequires: mvn(net.sf.ehcache:ehcache-core)
-BuildRequires: mvn(net.sf.jasperreports:jasperreports)
-%if 0
-# see https://bugzilla.redhat.com/show_bug.cgi?id=1005503
-BuildRequires: mvn(net.sf.jopt-simple:jopt-simple)
-%endif
-BuildRequires: mvn(net.sourceforge.jexcelapi:jxl)
-BuildRequires: mvn(org.apache.derby:derby)
-BuildRequires: mvn(org.apache.derby:derbyclient)
-BuildRequires: mvn(org.apache.geronimo.specs:specs)
-BuildRequires: mvn(org.apache.geronimo.specs:geronimo-annotation_1.1_spec)
-BuildRequires: mvn(org.apache.geronimo.specs:geronimo-commonj_1.1_spec)
-BuildRequires: mvn(org.apache.geronimo.specs:geronimo-ejb_3.1_spec)
-BuildRequires: mvn(org.apache.geronimo.specs:geronimo-interceptor_3.0_spec)
-BuildRequires: mvn(org.apache.geronimo.specs:geronimo-jaxrpc_1.1_spec)
-BuildRequires: mvn(org.apache.geronimo.specs:geronimo-jms_1.1_spec)
-BuildRequires: mvn(org.apache.geronimo.specs:geronimo-jta_1.1_spec)
-BuildRequires: mvn(org.apache.geronimo.specs:geronimo-saaj_1.3_spec)
-BuildRequires: mvn(org.apache.geronimo.specs:geronimo-validation_1.0_spec)
-BuildRequires: mvn(org.apache.httpcomponents:httpclient)
-BuildRequires: mvn(org.apache.openjpa:openjpa-jdbc)
-BuildRequires: mvn(org.apache.openjpa:openjpa-jest)
-BuildRequires: mvn(org.apache.openjpa:openjpa-kernel)
-BuildRequires: mvn(org.apache.openjpa:openjpa-lib)
-BuildRequires: mvn(org.apache.openjpa:openjpa-persistence)
-BuildRequires: mvn(org.apache.openjpa:openjpa-persistence-jdbc)
-BuildRequires: mvn(org.apache.openjpa:openjpa-slice)
-BuildRequires: mvn(org.apache.openjpa:openjpa-xmlstore)
-BuildRequires: mvn(org.apache.poi:poi)
-BuildRequires: mvn(org.apache.struts:struts-core)
-BuildRequires: mvn(org.apache.struts:struts-extras)
-BuildRequires: mvn(org.apache.struts:struts-tiles)
-BuildRequires: mvn(org.apache.tiles:tiles-api)
-BuildRequires: mvn(org.apache.tiles:tiles-core)
-BuildRequires: mvn(org.apache.tiles:tiles-el)
-BuildRequires: mvn(org.apache.tiles:tiles-jsp)
-BuildRequires: mvn(org.apache.tiles:tiles-servlet)
-BuildRequires: mvn(org.apache.tomcat:tomcat-catalina)
-BuildRequires: mvn(org.apache.tomcat:tomcat-el-api)
-BuildRequires: mvn(org.apache.tomcat:tomcat-jsp-api)
-BuildRequires: mvn(org.apache.tomcat:tomcat-servlet-api)
-BuildRequires: mvn(org.apache.xmlbeans:xmlbeans)
-BuildRequires: mvn(org.aspectj:aspectjweaver)
-BuildRequires: mvn(org.beanshell:bsh)
-BuildRequires: mvn(org.codehaus.castor:castor-xml)
-BuildRequires: mvn(org.codehaus.groovy:groovy)
-BuildRequires: mvn(org.codehaus.jackson:jackson-mapper-asl)
-BuildRequires: mvn(org.eclipse.persistence:org.eclipse.persistence.core)
-BuildRequires: mvn(org.freemarker:freemarker)
-BuildRequires: mvn(org.hamcrest:hamcrest-all)
-BuildRequires: mvn(org.hibernate:hibernate-validator)
-BuildRequires: mvn(org.hibernate.javax.persistence:hibernate-jpa-2.0-api)
-BuildRequires: mvn(org.jboss.spec.javax.resource:jboss-connector-api_1.6_spec)
-BuildRequires: mvn(org.jboss.spec.javax.faces:jboss-jsf-api_2.1_spec)
-BuildRequires: mvn(org.jibx:jibx-run)
-BuildRequires: mvn(org.jruby.extras:bytelist)
-BuildRequires: mvn(org.quartz-scheduler:quartz)
-BuildRequires: mvn(org.testng:testng)
-BuildRequires: mvn(rome:rome)
-BuildRequires: mvn(toplink.essentials:toplink-essentials)
-BuildRequires: mvn(velocity:velocity)
-BuildRequires: mvn(velocity-tools:velocity-tools-view)
+Patch0:        springframework-3.2.6-java.io.IOException-is-never-thrown.patch
+Patch1:        springframework-3.2.6-port-spring-jms-to-javax.resources-1.7.patch
+Patch2:        springframework-3.2.6-port-spring-orm-to-javax.persistence-2.0.patch
+Patch3:        springframework-3.2.6-port-spring-test-to-servlet-3.0.patch
+Patch4:        springframework-3.2.6-port-spring-tx-to-javax.resources-1.7.patch
+Patch5:        springframework-3.2.6-port-to-hibernate-validator-5.patch
+# TODO: rebase the patch for 3.2.x
+#Patch6:       springframework-3.1.4-osgi-support.patch
+Patch7:        springframework-3.2.9-port-spring-web-to-servlet-3.1.patch
 
-BuildRequires: mvn(javax.servlet:jstl)
-BuildRequires: mvn(taglibs:standard)
-%if 0%{?fedora} > 19
-BuildRequires: mvn(hsqldb:hsqldb:1)
-BuildRequires: mvn(org.jruby:jruby)
-%else
-BuildRequires: mvn(hsqldb:hsqldb)
-BuildRequires: mvn(org.jruby:shared)
-%endif
-BuildRequires: mvn(xmlunit:xmlunit)
-
-BuildRequires: maven-local
-BuildRequires: maven-plugin-bundle
-BuildRequires: maven-source-plugin
-
-BuildRequires: eclipse-jdt
+BuildRequires:  maven-local
+BuildRequires:  mvn(aopalliance:aopalliance)
+BuildRequires:  mvn(c3p0:c3p0)
+BuildRequires:  mvn(com.caucho:hessian)
+BuildRequires:  mvn(com.fasterxml.jackson.core:jackson-databind)
+BuildRequires:  mvn(com.h2database:h2)
+BuildRequires:  mvn(com.jamonapi:jamon)
+BuildRequires:  mvn(com.lowagie:itext)
+BuildRequires:  mvn(commons-beanutils:commons-beanutils)
+BuildRequires:  mvn(commons-fileupload:commons-fileupload)
+BuildRequires:  mvn(commons-httpclient:commons-httpclient)
+BuildRequires:  mvn(commons-io:commons-io)
+BuildRequires:  mvn(commons-logging:commons-logging)
+BuildRequires:  mvn(commons-pool:commons-pool)
+BuildRequires:  mvn(com.thoughtworks.xstream:xstream)
+BuildRequires:  mvn(hsqldb:hsqldb:1)
+BuildRequires:  mvn(jasperreports:jasperreports)
+BuildRequires:  mvn(javax.ejb:ejb-api)
+BuildRequires:  mvn(javax.el:el-api)
+BuildRequires:  mvn(javax.faces:jsf-api)
+BuildRequires:  mvn(javax.inject:javax.inject)
+BuildRequires:  mvn(javax.jdo:jdo-api)
+BuildRequires:  mvn(javax.mail:mail)
+BuildRequires:  mvn(javax.portlet:portlet-api)
+BuildRequires:  mvn(javax.servlet:javax.servlet-api)
+BuildRequires:  mvn(javax.servlet.jsp:jsp-api)
+BuildRequires:  mvn(javax.servlet:jstl)
+BuildRequires:  mvn(javax.servlet:servlet-api)
+BuildRequires:  mvn(javax.xml:jaxrpc-api)
+BuildRequires:  mvn(javax.xml.soap:saaj-api)
+BuildRequires:  mvn(joda-time:joda-time)
+BuildRequires:  mvn(junit:junit)
+BuildRequires:  mvn(log4j:log4j)
+BuildRequires:  mvn(net.sf.cglib:cglib)
+BuildRequires:  mvn(net.sf.ehcache:ehcache-core)
+BuildRequires:  mvn(net.sourceforge.jexcelapi:jxl)
+BuildRequires:  mvn(org.apache.derby:derby)
+BuildRequires:  mvn(org.apache.derby:derbyclient)
+BuildRequires:  mvn(org.apache.geronimo.specs:geronimo-interceptor_3.0_spec)
+BuildRequires:  mvn(org.apache.geronimo.specs:geronimo-jms_1.1_spec)
+BuildRequires:  mvn(org.apache.geronimo.specs:geronimo-jta_1.1_spec)
+BuildRequires:  mvn(org.apache.geronimo.specs:geronimo-validation_1.0_spec)
+BuildRequires:  mvn(org.apache.httpcomponents:httpclient)
+BuildRequires:  mvn(org.apache.openjpa:openjpa-lib)
+BuildRequires:  mvn(org.apache.openjpa:openjpa-persistence)
+BuildRequires:  mvn(org.apache.poi:poi)
+BuildRequires:  mvn(org.apache.struts:struts-core)
+BuildRequires:  mvn(org.apache.struts:struts-extras)
+BuildRequires:  mvn(org.apache.struts:struts-tiles)
+BuildRequires:  mvn(org.apache.tiles:tiles-api)
+BuildRequires:  mvn(org.apache.tiles:tiles-core)
+BuildRequires:  mvn(org.apache.tiles:tiles-el)
+BuildRequires:  mvn(org.apache.tiles:tiles-jsp)
+BuildRequires:  mvn(org.apache.tiles:tiles-servlet)
+BuildRequires:  mvn(org.apache.tomcat:tomcat-catalina)
+BuildRequires:  mvn(org.apache.tomcat:tomcat-el-api)
+BuildRequires:  mvn(org.apache.tomcat:tomcat-jsp-api)
+BuildRequires:  mvn(org.apache.tomcat:tomcat-servlet-api)
+BuildRequires:  mvn(org.apache.xmlbeans:xmlbeans)
+BuildRequires:  mvn(org.aspectj:aspectjweaver)
+BuildRequires:  mvn(org.beanshell:bsh)
+BuildRequires:  mvn(org.codehaus.castor:castor-xml)
+BuildRequires:  mvn(org.codehaus.groovy:groovy)
+BuildRequires:  mvn(org.codehaus.jackson:jackson-mapper-asl)
+BuildRequires:  mvn(org.eclipse.jetty:jetty-server)
+BuildRequires:  mvn(org.eclipse.jetty:jetty-servlet)
+BuildRequires:  mvn(org.eclipse.persistence:org.eclipse.persistence.core)
+BuildRequires:  mvn(org.freemarker:freemarker)
+BuildRequires:  mvn(org.hamcrest:hamcrest-core)
+BuildRequires:  mvn(org.hibernate:hibernate-core:3)
+BuildRequires:  mvn(org.hibernate:hibernate-entitymanager:3)
+BuildRequires:  mvn(org.hibernate:hibernate-validator)
+BuildRequires:  mvn(org.hibernate.javax.persistence:hibernate-jpa-2.0-api)
+BuildRequires:  mvn(org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec)
+BuildRequires:  mvn(org.jibx:jibx-run)
+BuildRequires:  mvn(org.jruby.extras:bytelist)
+BuildRequires:  mvn(org.jruby:jruby)
+BuildRequires:  mvn(org.ow2.asm:asm)
+BuildRequires:  mvn(org.quartz-scheduler:quartz)
+BuildRequires:  mvn(org.slf4j:slf4j-api)
+BuildRequires:  mvn(org.testng:testng)
+BuildRequires:  mvn(rome:rome)
+BuildRequires:  mvn(taglibs:standard)
+BuildRequires:  mvn(toplink.essentials:toplink-essentials)
+BuildRequires:  mvn(velocity-tools:velocity-tools-view)
+BuildRequires:  mvn(velocity:velocity)
+BuildRequires:  mvn(xmlunit:xmlunit)
 
 BuildArch:     noarch
-
 
 %description
 Spring is a layered Java/J2EE application framework, based on code published in
@@ -190,8 +152,6 @@ aspects and provides declarative transaction management without EJB.
 
 %package beans
 Summary:       Spring Bean Factory
-Requires:      mvn(javax.inject:javax.inject)
-Requires:      mvn(org.apache.tomcat:tomcat-el-api)
 
 %description beans
 The Spring Bean Factory provides an advanced configuration mechanism capable of
@@ -199,7 +159,6 @@ managing beans of any nature, using potentially any kind of storage facility.
 
 %package context
 Summary:       Spring Application Context
-Requires:      mvn(javax.inject:javax.inject)
 
 %description context
 The Spring Application Context is a complete superset of a bean factory, and
@@ -208,7 +167,6 @@ enterprise-centric.
 
 %package context-support
 Summary:       Spring Context Support
-Requires:      mvn(net.sf.ehcache:ehcache-core)
 
 %description context-support
 This package provide Quartz/CommonJ scheduling,
@@ -231,7 +189,6 @@ gives you runtime control of the container.
 
 %package instrument-tomcat
 Summary:       Spring Instrument Tomcat Weaver
-Requires:      mvn(org.apache.tomcat:tomcat-catalina)
 
 %description instrument-tomcat
 Extension of Tomcat's default class loader which
@@ -240,9 +197,6 @@ need to use a VM-wide agent.
 
 %package jdbc
 Summary:       Spring JDBC
-%if 0%{?fedora} > 19
-Requires:      mvn(hsqldb:hsqldb:1)
-%endif
 
 %description jdbc
 Spring JDBC takes care of all the low-level details associated to the
@@ -250,25 +204,19 @@ development with JDBC.
 
 %package jms
 Summary:       Spring jms
-Requires:      mvn(org.apache.geronimo.specs:geronimo-jms_1.1_spec)
-Requires:      mvn(org.apache.geronimo.specs:geronimo-jta_1.1_spec)
 
 %description jms
 This package provide Java Message Service 1.0.2/1.1 support.
 
 %package orm
 Summary:       Spring ORM
-Requires:      hibernate3 >= 3.6.10-7
-Requires:      hibernate3-entitymanager >= 3.6.10-7
-Requires:      mvn(org.hibernate.javax.persistence:hibernate-jpa-2.0-api)
 
 %description orm
 This package provide JDO support, JPA support, Hibernate
-support, TopLink support, iBATIS support.
+support, TopLink support.
 
 %package oxm
 Summary:       Spring OXM
-Requires:      mvn(aopalliance:aopalliance)
 
 %description oxm
 This package provide marshaling and unmarshalling
@@ -276,9 +224,6 @@ for XML with JAXB context and JiBX binding factories.
 
 %package struts
 Summary:       Spring Web Struts
-Requires:      mvn(taglibs:standard)
-Requires:      mvn(org.apache.tomcat:tomcat-jsp-api)
-Requires:      mvn(org.apache.tomcat:tomcat-servlet-api)
 
 %description struts
 This package provide integrate a Struts
@@ -303,8 +248,6 @@ access abstractions.
 
 %package web
 Summary:       Spring Web
-Requires:      mvn(javax.portlet:portlet-api)
-Requires:      mvn(org.apache.tomcat:tomcat-jsp-api)
 
 %description web
 This package provide web application context, multipart
@@ -312,12 +255,6 @@ resolver, HTTP-based remoting support.
 
 %package webmvc
 Summary:       Spring Web Servlet
-Requires:      mvn(javax.servlet:jstl)
-Requires:      mvn(org.apache.geronimo.specs:geronimo-jta_1.1_spec)
-Requires:      mvn(org.apache.geronimo.specs:geronimo-validation_1.0_spec)
-Requires:      mvn(org.apache.tomcat:tomcat-el-api)
-Requires:      mvn(org.apache.tomcat:tomcat-jsp-api)
-Requires:      mvn(org.apache.tomcat:tomcat-servlet-api)
 
 %description webmvc
 This package provide framework servlets, web MVC framework,
@@ -326,10 +263,6 @@ iText and POI.
 
 %package webmvc-portlet
 Summary:       Spring Web Portlet
-Requires:      mvn(javax.portlet:portlet-api)
-Requires:      mvn(org.apache.tomcat:tomcat-el-api)
-Requires:      mvn(org.apache.tomcat:tomcat-jsp-api)
-Requires:      mvn(org.apache.tomcat:tomcat-servlet-api)
 
 %description webmvc-portlet
 This package provide support development of Portlet
@@ -339,150 +272,160 @@ applications with Spring.
 %setup -q -n spring-framework-%{namedversion}
 find -name "*.class" -delete
 find -name "*.jar" -print -delete
+
 %patch0 -p1
 %patch1 -p1
-%patch2 -p0
-%patch3 -p0
-%patch4 -p0
-%patch5 -p0
-%patch6 -p0
-%patch7 -p0
-%patch8 -p0
-%patch9 -p1
-%patch10 -p1
-%patch11 -p1
-%patch12 -p1
-%patch13 -p1
-%patch14 -p1
+%patch2 -p1
+%patch3 -p1
+%patch4 -p1
+%patch5 -p1
+#%%patch6 -p1
+%patch7 -p1
 
-cp -p %{SOURCE1} pom.xml
+cp %{SOURCE101} pom.xml
+cp %{SOURCE102} spring-core/pom.xml
+cp %{SOURCE103} spring-expression/pom.xml
+cp %{SOURCE104} spring-context/pom.xml
+cp %{SOURCE105} spring-aop/pom.xml
+cp %{SOURCE106} spring-instrument/pom.xml
+cp %{SOURCE107} spring-beans/pom.xml
+cp %{SOURCE108} spring-orm/pom.xml
+cp %{SOURCE109} spring-test/pom.xml
+cp %{SOURCE110} spring-context-support/pom.xml
+cp %{SOURCE111} spring-instrument-tomcat/pom.xml
+cp %{SOURCE112} spring-jdbc/pom.xml
+cp %{SOURCE113} spring-jms/pom.xml
+cp %{SOURCE114} spring-tx/pom.xml
+cp %{SOURCE115} spring-web/pom.xml
+cp %{SOURCE116} spring-oxm/pom.xml
+cp %{SOURCE117} spring-struts/pom.xml
+cp %{SOURCE118} spring-webmvc/pom.xml
+cp %{SOURCE119} spring-webmvc-portlet/pom.xml
 
-# Remove org.springframework.build.aws.maven
-%pom_xpath_remove "pom:build/pom:extensions" org.springframework.spring-parent
 
-# ERROR: XThis is not public in Bsh
-rm org.springframework.context/src/main/java/org/springframework/scripting/bsh/BshScriptFactory.java
-rm org.springframework.context/src/main/java/org/springframework/scripting/bsh/BshScriptUtils.java
+# do not generate R on hiberante4, we use version 3
+%pom_remove_dep :hibernate-entitymanager spring-orm
+%pom_add_dep org.hibernate:hibernate-entitymanager:3 spring-orm
 
-# Remove classes which explicitly require Quartz 1.x (others are patched)
-rm org.springframework.context.support/src/main/java/org/springframework/scheduling/quartz/JobDetailBean.java
-rm org.springframework.context.support/src/main/java/org/springframework/scheduling/quartz/SimpleTriggerBean.java
-rm org.springframework.context.support/src/main/java/org/springframework/scheduling/quartz/CronTriggerBean.java
+# missing dep
+%pom_remove_dep com.jayway.jsonpath:json-path spring-test
+
+# looks like older jstl 1.1 works just fine (upstream uses 1.2)
+%pom_remove_dep javax.servlet:jstl spring-test
+%pom_add_dep taglibs:standard spring-test
+
+%pom_remove_dep struts:struts spring-struts
+%pom_add_dep org.apache.struts:struts-core spring-struts
+%pom_add_dep org.apache.struts:struts-extras spring-struts
+%pom_add_dep org.apache.struts:struts-tiles spring-struts
+
+# remove optional/missing deps
+%pom_remove_dep org.apache.tiles:tiles-extras spring-webmvc
+
+# build against connector-api 1.7 instead of 1.5
+%pom_remove_dep javax.resource:connector-api spring-tx
+%pom_add_dep org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec spring-tx
 
 # Remove the dependency on WebSphere UOW as it is not open source and we will
 # never be able to build it:
-%pom_remove_dep com.ibm.websphere:com.springsource.com.ibm.websphere.uow org.springframework.transaction
-rm org.springframework.transaction/src/main/java/org/springframework/transaction/jta/WebSphereUowTransactionManager.java \
- org.springframework.transaction/src/test/java/org/springframework/transaction/jta/WebSphereUowTransactionManagerTests.java
+%pom_remove_dep com.ibm.websphere:uow spring-tx
+rm spring-tx/src/main/java/org/springframework/transaction/jta/WebSphereUowTransactionManager.java \
+ spring-tx/src/test/java/org/springframework/transaction/jta/WebSphereUowTransactionManagerTests.java
 
-# Don't depend on backport-util-concurrent
-%pom_remove_dep :backport-util-concurrent org.springframework.context
-sed -i s/edu.emory.mathcs.backport.// `find org.springframework.context -name *.java`
+# hiberante3 is a compat package
+%pom_remove_dep :hibernate-annotations spring-orm
+%pom_remove_dep :hibernate-core spring-orm
+%pom_add_dep org.hibernate:hibernate-core:3 spring-orm
 
-%pom_xpath_set "pom:dependencies/pom:dependency[pom:artifactId = 'jasperreports']/pom:groupId" net.sf.jasperreports org.springframework.web.servlet
+# missing dep ibatis
+rm -rf spring-orm/src/main/java/org/springframework/orm/ibatis/*
+%pom_remove_dep :ibatis-sqlmap spring-orm
 
-%pom_xpath_set "pom:dependencies/pom:dependency[pom:groupId = 'org.codehaus.woodstox']/pom:artifactId" woodstox-core-asl org.springframework.core
+%pom_remove_dep :openjpa spring-orm
+%pom_add_dep org.apache.openjpa:openjpa-lib spring-orm
 
-%pom_xpath_set "pom:dependencies/pom:dependency[pom:groupId = 'org.codehaus.groovy']/pom:artifactId" groovy org.springframework.context
-%pom_xpath_set "pom:dependencies/pom:dependency[pom:groupId = 'org.hibernate']/pom:artifactId" hibernate-validator org.springframework.context
+%pom_remove_dep :org.eclipse.persistence.jpa spring-orm
+%pom_add_dep org.apache.openjpa:openjpa-persistence spring-orm
 
-# TODO Fix jruby aId
-%if 0%{?fedora} <= 19
-%pom_xpath_set "pom:dependencies/pom:dependency[pom:groupId = 'org.jruby']/pom:artifactId" shared org.springframework.context
-%else
-# Make sure we require version '1' of hsqldb
-while read f
-do
+# build against connector-api 1.7 instead of 1.5
+%pom_remove_dep javax.resource:connector-api spring-jms
+%pom_add_dep org.jboss.spec.javax.resource:jboss-connector-api_1.7_spec spring-jms
 
-%pom_xpath_set "pom:dependencies/pom:dependency[pom:groupId = 'hsqldb']/pom:version" 1 ${f}
+# hsqldb1 is a compat package, fix version
+%pom_remove_dep hsqldb:hsqldb spring-jdbc
+%pom_add_dep hsqldb:hsqldb:1 spring-jdbc
 
-done << EOF
-org.springframework.context.support/pom.xml
-org.springframework.integration-tests/pom.xml
-org.springframework.jdbc/pom.xml
-org.springframework.orm/pom.xml
-org.springframework.test/pom.xml
-EOF
-%endif
-%pom_add_dep org.jruby.extras:bytelist:1.0.8:compile org.springframework.context
+# use tomcat 7 lib
+%pom_remove_dep org.apache.tomcat:catalina spring-instrument-tomcat
+%pom_add_dep org.apache.tomcat:tomcat-catalina spring-instrument-tomcat
 
-%pom_xpath_set "pom:dependencyManagement/pom:dependencies/pom:dependency[pom:groupId = 'javax.inject']/pom:artifactId" javax.inject  org.springframework.spring-parent
-%pom_xpath_set "pom:dependencies/pom:dependency[pom:artifactId = 'c3p0']/pom:groupId" com.mchange org.springframework.jdbc
+# missing dep jcache
+rm -Rf spring-context-support/src/main/java/org/springframework/cache/jcache/
+%pom_remove_dep javax.cache:cache-api spring-context-support
 
-%pom_remove_dep org.codehaus.jsr166-mirror:jsr166 org.springframework.context
-%pom_remove_dep javax.activation:activation org.springframework.test
-%pom_remove_dep org.hibernate:hibernate-cglib-repack org.springframework.test
+# missing dep commonj
+rm -Rf spring-context-support/src/main/java/org/springframework/scheduling/
+%pom_remove_dep org.codehaus.fabric3.api:commonj spring-context-support
 
-#%%pom_add_dep junit:junit:4.11:compile org.springframework.test
-# require for build test module
-%pom_xpath_remove "pom:dependencyManagement/pom:dependencies/pom:dependency[pom:artifactId = 'junit']/pom:scope" org.springframework.spring-parent
-# TODO
-%pom_remove_dep :jopt-simple org.springframework.core
-rm -r org.springframework.core/src/main/java/org/springframework/core/env/JOptCommandLinePropertySource.java
+# replace javax deps
+%pom_remove_dep :el-api spring-beans
+%pom_add_dep org.apache.tomcat:tomcat-el-api spring-beans
 
-%pom_xpath_set "pom:dependencies/pom:dependency[pom:groupId = 'org.apache.tomcat']/pom:artifactId" tomcat-catalina org.springframework.instrument.tomcat 
-%pom_xpath_set "pom:dependencies/pom:dependency[pom:groupId = 'org.apache.tomcat']/pom:version" 7.0.42 org.springframework.instrument.tomcat
+%pom_remove_dep :persistence-api spring-context
+%pom_add_dep org.hibernate.javax.persistence:hibernate-jpa-2.0-api spring-context
+%pom_remove_dep :validation-api spring-context
+%pom_add_dep org.apache.geronimo.specs:geronimo-validation_1.0_spec spring-context
+
+%pom_add_dep org.apache.geronimo.specs:geronimo-interceptor_3.0_spec spring-context
+%pom_add_dep org.jruby.extras:bytelist spring-context
+
+%pom_remove_dep :persistence-api spring-orm
+%pom_add_dep org.hibernate.javax.persistence:hibernate-jpa-2.0-api spring-context
+%pom_remove_dep javax.servlet:servlet-api spring-orm
+%pom_add_dep org.apache.tomcat:tomcat-servlet-api spring-context
+
+%pom_remove_dep :persistence-api spring-test
+%pom_add_dep org.apache.tomcat:tomcat-el-api spring-test
+%pom_remove_dep javax.servlet.jsp:jsp-api spring-test
+%pom_add_dep org.apache.tomcat:tomcat-jsp-api spring-test
 
 # Disable part of Derby support, require derby 10.5
 # unavailable method purgeDatabase in org.apache.derby.impl.io.VFMemoryStorageFactory
-rm -r org.springframework.jdbc/src/main/java/org/springframework/jdbc/datasource/embedded/DerbyEmbeddedDatabaseConfigurer.java
+rm -r spring-jdbc/src/main/java/org/springframework/jdbc/datasource/embedded/DerbyEmbeddedDatabaseConfigurer.java
 sed -i "s|case DERBY:||" \
- org.springframework.jdbc/src/main/java/org/springframework/jdbc/datasource/embedded/EmbeddedDatabaseConfigurerFactory.java
+ spring-jdbc/src/main/java/org/springframework/jdbc/datasource/embedded/EmbeddedDatabaseConfigurerFactory.java
 sed -i "s|return DerbyEmbeddedDatabaseConfigurer.getInstance();||" \
- org.springframework.jdbc/src/main/java/org/springframework/jdbc/datasource/embedded/EmbeddedDatabaseConfigurerFactory.java
+ spring-jdbc/src/main/java/org/springframework/jdbc/datasource/embedded/EmbeddedDatabaseConfigurerFactory.java
 
-# package com.fasterxml.jackson.databind does not exist
-%pom_add_dep com.fasterxml.jackson.core:jackson-databind:2.2.2:compile org.springframework.jms
+# ERROR: XThis is not public in Bsh
+rm spring-context/src/main/java/org/springframework/scripting/bsh/BshScriptFactory.java
+rm spring-context/src/main/java/org/springframework/scripting/bsh/BshScriptUtils.java
 
-# Unavailable dep
-rm -rf org.springframework.orm/src/main/java/org/springframework/orm/ibatis/*
-# Use hibernate3 this release dont provides a real H4 support
-rm -rf org.springframework.orm/src/main/java/org/springframework/orm/hibernate4/*
+%pom_remove_dep :jopt-simple spring-core
+rm -r spring-core/src/main/java/org/springframework/core/env/JOptCommandLinePropertySource.java
 
-# Make sure we require version '3' of Hibernate
-while read f
-do
+# Don't depend on backport-util-concurrent (upstream dropped this dep in 4.x)
+%pom_remove_dep :backport-util-concurrent spring-context
 
-%pom_xpath_remove "pom:dependencies/pom:dependency[pom:groupId = 'org.hibernate']/pom:version" ${f}
-%pom_xpath_inject "pom:dependencies/pom:dependency[pom:groupId = 'org.hibernate']" "<version>3</version>" ${f}
+# TODO: missing deps in upstream poms?
+%pom_add_dep org.ow2.asm:asm spring-core
+%pom_add_dep net.sf.cglib:cglib:4.2 spring-core
 
-done << EOF
-org.springframework.test/pom.xml
-org.springframework.integration-tests/pom.xml
-org.springframework.orm/pom.xml
-EOF
+%pom_xpath_set "pom:dependencies/pom:dependency[pom:groupId = 'org.codehaus.groovy']/pom:artifactId" groovy spring-context
 
-# Fix cglib aId
-while read p
-do
+find ./ -name "*.java" -exec sed -i "s/org.springframework.asm/org.objectweb.asm/g" {} +
+find ./ -name "*.java" -exec sed -i "s/org.springframework.cglib/net.sf.cglib/g" {} +
+find ./ -name "*.java" -exec sed -i "/edu.emory.mathcs.backport/d" {} +
 
-%pom_xpath_set "pom:dependencies/pom:dependency[pom:groupId = 'cglib']/pom:artifactId" cglib ${p}
+rm spring-context/src/main/java/org/springframework/scheduling/backportconcurrent/*
 
-done << EOF
-org.springframework.beans/pom.xml
-org.springframework.aop/pom.xml
-org.springframework.context/pom.xml
-org.springframework.web.servlet/pom.xml
-EOF
+# copy license and notice file
+cp -p src/dist/* .
 
-while read p
-do
-
-%pom_remove_dep javax.xml.ws:jaxws-api ${p}
-
-done << EOF
-org.springframework.context/pom.xml
-org.springframework.spring-parent/pom.xml
-org.springframework.web/pom.xml
-EOF
-
-cp -p build-spring-framework/resources/* .
-
-%build
-
-%mvn_package ":spring-parent" %{name}
 %mvn_package ":spring-core" %{name}
 %mvn_package :spring-project __noinstall
+
+%build
 # Build without the tests, as they bring a lot of dependecies that are not
 # available in the distribution at the moment:
 %mvn_build -f -s -- -Dproject.build.sourceEncoding=ISO-8859-1
@@ -492,63 +435,48 @@ cp -p build-spring-framework/resources/* .
 
 %files -f .mfiles-%{name}
 %dir %{_javadir}/%{name}
-%doc README.md changelog.txt license.txt notice.txt readme.txt
-
+%doc license.txt notice.txt README.md
 %files javadoc -f .mfiles-javadoc
-%doc license.txt notice.txt
-
+%doc license.txt  notice.txt
 %files aop -f .mfiles-spring-aop
-%doc license.txt notice.txt
-
 %files beans -f .mfiles-spring-beans
-%doc license.txt notice.txt
-
 %files context -f .mfiles-spring-context
-%doc license.txt notice.txt
-
 %files context-support -f .mfiles-spring-context-support
-%doc license.txt notice.txt
-
 %files expression -f .mfiles-spring-expression
-%doc license.txt notice.txt
-
 %files instrument -f .mfiles-spring-instrument
-%doc license.txt notice.txt
-
+%doc license.txt  notice.txt
 %files instrument-tomcat -f .mfiles-spring-instrument-tomcat
-%doc license.txt notice.txt
-
+%doc license.txt  notice.txt
 %files jdbc -f .mfiles-spring-jdbc
-%doc license.txt notice.txt
-
 %files jms -f .mfiles-spring-jms
-%doc license.txt notice.txt
-
 %files orm -f .mfiles-spring-orm
-%doc license.txt notice.txt
-
 %files oxm -f .mfiles-spring-oxm
-%doc license.txt notice.txt
-
 %files struts -f .mfiles-spring-struts
-%doc license.txt notice.txt
-
 %files test -f .mfiles-spring-test
-%doc license.txt notice.txt
-
 %files tx -f .mfiles-spring-tx
-%doc license.txt notice.txt
-
 %files web -f .mfiles-spring-web
-%doc license.txt notice.txt
-
 %files webmvc -f .mfiles-spring-webmvc
-%doc license.txt notice.txt
-
 %files webmvc-portlet -f .mfiles-spring-webmvc-portlet
-%doc license.txt notice.txt
+
 
 %changelog
+* Wed Sep 03 2014 Michal Srb <msrb@redhat.com> - 0:3.2.9-2
+- Fix dependency on quartz
+
+* Wed Aug 20 2014 Michal Srb <msrb@redhat.com> - 0:3.2.9-1
+- Update to 3.2.9
+- Resolves: CVE-2014-0225
+
+* Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0:3.2.6-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
+* Mon Jan 20 2014 Michal Srb <msrb@redhat.com> - 0:3.2.6-2
+- Update to 3.2.6
+- Fix BR
+
+* Fri Jan 17 2014 Michal Srb <msrb@redhat.com> - 0:3.2.5-1
+- Update to 3.2.5
+
 * Fri Dec 06 2013 gil cattaneo <puntogil@libero.it> 0:3.1.4-2
 - fix for rhbz: 993376, 953977
 - switch to XMvn

@@ -1,2 +1,21 @@
 sources:
-  v3.1.4.RELEASE.tar.gz: 2fc29d756359990728ffdb05671ef590dfa99282
+  spring-aop-3.2.9.RELEASE.pom: 9a9a5aba555e01a323268512623c17f9c94b35fa
+  spring-beans-3.2.9.RELEASE.pom: 71c3ecaf77cb8589ed39d29e2ea02d8f5ad6e4e4
+  spring-context-3.2.9.RELEASE.pom: cf347acce742b3ee617da27c8c34fea2c1caa249
+  spring-context-support-3.2.9.RELEASE.pom: 9a1595cbb09cbae2e4737aa783b084410ac14911
+  spring-core-3.2.9.RELEASE.pom: 8878d8ff6422ecca56b80a82940e287d18a194dd
+  spring-expression-3.2.9.RELEASE.pom: 4d27f5c773d185138dc4f42d20f8dc1d0be1472b
+  spring-instrument-3.2.9.RELEASE.pom: 82f3e6af4355f7e33a97b9c27bcfe01973131792
+  spring-instrument-tomcat-3.2.9.RELEASE.pom: 7f23bb01675ec97201a6750bef831855576e06c5
+  spring-jdbc-3.2.9.RELEASE.pom: eb3c6fc529ba3a2cee6cce417e94d41ae391e884
+  spring-jms-3.2.9.RELEASE.pom: e7c3b0bc8d2637ec35efebd3049ac8ba255f0efd
+  spring-orm-3.2.9.RELEASE.pom: 5ada6db967cdcdfe4f0505d6367bbd0f389553de
+  spring-oxm-3.2.9.RELEASE.pom: 7d5c8756144e5b44805158011b628297fdb01f7e
+  spring-struts-3.2.9.RELEASE.pom: e465eeddd7893ec3d3b6242aae25226248db073a
+  spring-test-3.2.9.RELEASE.pom: 0a23c93f5c9b90b3d600dc9a98453d28b69b7043
+  spring-tx-3.2.9.RELEASE.pom: 7adfb1278bc6bb66ab3282003c8796f1e583d2eb
+  spring-web-3.2.9.RELEASE.pom: 4218816aa88a145ae5132691a9f47c0282c83cc5
+  spring-webmvc-3.2.9.RELEASE.pom: ef9aa4a10701b11afa34fae18f0d3cc6011c2444
+  spring-webmvc-portlet-3.2.9.RELEASE.pom: 65e04e040842d1e9a93a1c8cc102058c5736eac1
+  springframework-3.2.9.RELEASE.pom: 4e376c2430af8227c1a434b741305af92eaa4c93
+  v3.2.9.RELEASE.tar.gz: 13e7dbe9de367ebcce62498db714a8e1feb709e8
