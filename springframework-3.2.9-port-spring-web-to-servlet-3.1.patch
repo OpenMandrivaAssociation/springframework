@@ -33,22 +33,21 @@
  
  import org.springframework.util.Assert;
  import org.springframework.util.StringUtils;
-@@ -356,6 +357,18 @@
+@@ -364,6 +364,17 @@
+ 				}
  				return ch;
  			}
- 
-+			public void setReadListener(ReadListener readListener) {
-+				throw new UnsupportedOperationException("Not implemented yet");
-+			}
++                       public void setReadListener(ReadListener readListener) {
++                               throw new UnsupportedOperationException("Not implemented yet");
++                       }
 +
-+			public boolean isReady() {
-+				throw new UnsupportedOperationException("Not implemented yet");
-+			}
++                       public boolean isReady() {
++                               throw new UnsupportedOperationException("Not implemented yet");
++                       }
 +
-+			public boolean isFinished() {
-+				throw new UnsupportedOperationException("Not implemeneted yet");
-+			}
-+
++                       public boolean isFinished() {
++                               throw new UnsupportedOperationException("Not implemeneted yet");
++                       }
  		}
- 
  	}
+ 

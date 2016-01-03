@@ -3,7 +3,7 @@
 %global namedversion %{version}%{?namedreltag}
 
 Name:          springframework
-Version:       3.2.9
+Version:       3.2.13
 Release:       2.3
 Summary:       Spring Java Application Framework
 Group:         Development/Java
@@ -41,7 +41,7 @@ Patch4:        springframework-3.2.6-port-spring-tx-to-javax.resources-1.7.patch
 Patch5:        springframework-3.2.6-port-to-hibernate-validator-5.patch
 # TODO: rebase the patch for 3.2.x
 #Patch6:       springframework-3.1.4-osgi-support.patch
-Patch7:        springframework-3.2.9-port-spring-web-to-servlet-3.1.patch
+Patch7:		springframework-3.2.9-port-spring-web-to-servlet-3.1.patch
 
 BuildRequires:  maven-local
 BuildRequires:  mvn(aopalliance:aopalliance)
