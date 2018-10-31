@@ -4,7 +4,7 @@
 
 Name:          springframework
 Version:       3.2.13
-Release:       2.3
+Release:       2.4
 Summary:       Spring Java Application Framework
 Group:         Development/Java
 Epoch:         0
