@@ -9,7 +9,7 @@ Summary:       Spring Java Application Framework
 Group:         Development/Java
 Epoch:         0
 License:       ASL 2.0
-URL:           http://projects.spring.io/spring-framework/
+URL:           https://projects.spring.io/spring-framework/
 
 Source0:       https://github.com/spring-projects/spring-framework/archive/v%{namedversion}.tar.gz
 
